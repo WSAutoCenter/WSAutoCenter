@@ -1,0 +1,100 @@
+body {
+    background: rgb(17, 12, 126);
+    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgb(96, 2, 117) 35%, rgba(44, 125, 197, 1) 72%);
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+#logo-img{
+    width: 100px;
+}
+.section1 {
+    display: flex;
+    width: 100%;
+    height: 90vh; /* Use vh para garantir que a altura seja responsiva */
+    background-image: url('img/backg.jpg');
+    background-size: cover;
+    background-position: center; /* Centraliza a imagem de fundo */
+    background-repeat: no-repeat; /* Garante que a imagem não se repita */
+}
+.blur{
+    width: 100%;
+    height: auto;
+    background-color: rgba(1, 1, 75, 0.726);
+    display: flex;
+    align-items: center;
+    padding: 20%;
+}
+.blur .container-fluid h1{
+    font-size: 80px;
+    font-family:'Times New Roman', Times, serif;
+    color: #C6BFEE;
+}
+
+.blur .container-fluid p{
+    font-size: 20px;
+    color: #C6BFEE;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.blur .container-fluid .container-fluid{
+    display: flex;
+    gap: 10px;
+}
+
+.blur .container-fluid .container-fluid #button1{
+    background-color: #a95b95;
+    width: auto;
+    padding-left: 10%;
+    font-size: 20px;
+    text-align: center;
+    padding-right: 10%;
+    border:none;
+}
+
+.blur .container-fluid .container-fluid #button1:hover{
+    border: 2px solid white;
+}
+
+.blur .container-fluid .container-fluid #button2{
+    background-color: #000000;
+    border: 2px solid #a95b95;
+    width: auto;
+    padding-left: 10%;
+    font-size: 20px;
+    text-align: center;
+    padding-right: 10%;
+    color:#a95b95;
+}
+
+.blur .container-fluid .container-fluid #button2:hover{
+    border: 2px solid white;
+}
+
+#section1_content{
+    display: flex;
+    flex-direction: column;
+}
+
+.section2{
+    background-size: cover;
+    width: 100vw;
+    height: 80vh auto;
+    background-color: green;
+    padding: 10px;
+}
+
+#container_section2{
+    display: flex;
+    align-items: ;
+    flex-direction: column;
+}
+
+.section3{
+    background-size: cover;
+    width: 100vw;
+    height: 80vh;
+    background-color: blue;
+    padding: 10px;
+}
+
+
