@@ -183,10 +183,10 @@
             <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" onclick="inseretxt2()">
                 Endereço
             </button>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" onclick="inseretxt3()">
                 Contatos
             </button>
-            
+
         </div>
         <div style="min-height: 120px;">
             <div class="collapse collapse-horizontal" id="collapseWidthExample">
@@ -205,8 +205,8 @@
 
             <h1 id="header_see_more">Avaliações dos nossos Clientes</h1>
 
-            <button type="button" class="btn btn-info" data-bs-toggle="dropdown" aria-expanded="false" onclick="ver_mais()" style="display:flex; align-items:center; gap: 1rem;">
-                Ver Mais <span class="material-symbols-outlined">visibility</span>
+            <button type="button" class="btn btn-info" data-bs-toggle="dropdown" aria-expanded="false" onclick="toggleImages()" style="display:flex; align-items:center; gap: 1rem;" id="botao_imgs">
+                Ver Mais <span class="material-symbols-outlined" id="icon">visibility</span>
             </button>
         </div>
 
@@ -217,13 +217,22 @@
         }
         ?>
     </div>
-    <div class="container-fluid" id="avaliacoes2" style="display: none;">
-        <?php
-        for ($i = 1; $i < 26; $i++) {
-            echo '<img src="img/av' . $i . '.png" class="img-fluid img-thumbnail" alt="...">';
-        }
-        ?>
+    <div class="container-fluid" id="avaliacoes2">
     </div>
+
+    <script>
+        function ver_mais() {
+            const container = document.getElementById('avaliacoes2');
+            for (let i = 1; i < 26; i++) {
+                const img = document.createElement('img');
+                img.src = `img/av${i}.png`;
+                img.classList.add('imgfluid');
+                img.alt = '...';
+                container.appendChild(img);
+            }
+        }
+    </script>
+
 
 
 
@@ -240,16 +249,16 @@
                     <li class="nav-item mb-2"><a href="#">Inicio</a></li>
                     <li class="nav-item mb-2">Segunda-sexta das 8:00 às 17:30</li>
                     <li class="nav-item mb-2"><a href="#"> </a>Sábado: 8:00 às 12:00</li>
-                    <li class="nav-item mb-2"><a href="#">Acompanhe nossas redes sociais!:</a></li>
+                    <li class="nav-item mb-2"><a href="https://www.instagram.com/ws.centroautomotivo.c/">Acompanhe nosso Instagram</a></li>
                 </ul>
             </div>
 
             <div class="col-md-5 offset-md-1 mb-3">
-                <form id="form_email">
+                <form id="form_email" action="sendmail.php" method="post">
                     <h5>Mande-nos um email</h5>
                     <div class="d-flex flex-column flex-sm-row w-100 gap-2">
                         <label for="newsletter1" class="visually-hidden">Seu melhor email</label>
-                        <input id="newsletter1" type="text" class="form-control" placeholder="Email address" title="Te responderemos o mais rápido possível!">
+                        <input id="newsletter1" type="text" class="form-control" placeholder="Seu e-mail aqui..." title="Te responderemos o mais rápido possível!">
                         <button class="btn btn-primary" type="button">Enviar</button>
                     </div>
                     <div class="form-floating" style="width:100%;">
@@ -262,7 +271,7 @@
 
         <div class="d-flex flex-column  justify-content-center border-top" id="copy_footer">
             <p>&copy; 2024 WS Centro Automotivo, Todos os direitos reservados.</p>
-            <img src="img/ws_noback.png" alt="" class="img-fluid" id="img_footer">
+            <img src="img/ws_noback1.png" alt="" class="img-fluid" id="img_footer">
         </div>
     </footer>
 </div>

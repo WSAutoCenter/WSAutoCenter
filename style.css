@@ -163,6 +163,7 @@ nav{
     max-width: 100%;
     height: auto;
     border-radius: 8px;
+    background-color: red;
 }
 
 picture{
@@ -193,6 +194,7 @@ picture .container-fluid{
     display: flex;
     justify-content: space-between;
 }
+
 
 #header_see_more{
     font-size: 50px;
