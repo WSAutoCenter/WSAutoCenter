@@ -43,3 +43,17 @@ function toggleImages() {
         icon.textContent = "visibility_off";
     }
 }
+
+
+function versenha() {
+    const passwordInput = document.getElementById('senha');
+    const toggleIcon = document.getElementById('toggle-icon');
+
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.textContent = 'visibility_off';
+    } else {
+        passwordInput.type = 'password';
+        toggleIcon.textContent = 'visibility';
+    }
+}
