@@ -1,10 +1,20 @@
 <?php
 
+require 'vendor/autoload.php';
+include 'conexao.php';
+$nome_user = "";
+if (isset($_COOKIE['usuario'])) {
+    $user = $_COOKIE['usuario'];
+    $sql = "SELECT * FROM usuarios WHERE email = '$user'";
+    $resultado = banco($server, $user, $pass, $name, $sql);
+    $line = $resultado->fetch_assoc();
+    $nome_user = $line['nome'];
+}
+
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/autoload.php';
-include 'conexao.php';
 if (isset($_POST['btn_entrar'])) {
     $email = $_POST['email_login'];
     $senha = $_POST['senha_login'];
@@ -41,15 +51,24 @@ if (isset($_POST['btn_mail'])) {
         $mail->addAddress('wscentroautomotivo960@gmail.com', 'WS CENTRO AUTOMOTIVO');
         $mail->isHTML(true);
         $mail->Subject = 'Novo email';
-        $mail->Body.="Cliente:".$email_user."<br>";
-        $mail->Body.="Mensagem: ".$msg."</br>";
+        $mail->Body .= "Cliente:" . $email_user . "<br>";
+        $mail->Body .= "Mensagem: " . $msg . "</br>";
 
-        if($mail->send()){
+        if ($mail->send()) {
             header("location:index.php");
         }
     } catch (Exception $e) {
         echo "Mensagem não pôde ser enviada. Mailer Error: {$mail->ErrorInfo}";
     }
+}
+
+
+if (isset($_POST['btn_serviços'])) {
+    $servico = $_POST['opcoes_servicos'];
+    $descricao = $_POST['descricao'];
+
+    echo $servico;
+    echo $descricao;
 }
 ?>
 
@@ -86,7 +105,7 @@ if (isset($_POST['btn_mail'])) {
                         <a class="nav-link active" aria-current="page" href="#" style="font-weight:bold;">TOPO</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://wa.me/557398691752" target="blank">WHATSAPP</a>
+                        <a class="nav-link" href="#" target="blank">PEÇAS</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -111,8 +130,7 @@ if (isset($_POST['btn_mail'])) {
                     </button>
                 </ul>
                 <?php
-
-
+                echo "<div id='onload' style='max-height:auto; height:auto; text-align:center; margin-right:1rem'>$nome_user</div>";
                 echo "<div id='result' style='max-height:auto; height:auto; text-align:center; margin-right:1rem'></div>";
                 ?>
                 <form class="d-flex" role="search">
@@ -135,9 +153,9 @@ if (isset($_POST['btn_mail'])) {
                 </div>
                 <form action="consulta.php" method="post" id="consultaForm">
                     <div class="modal-body">
-                        <input type="email" class="form-control" placeholder="Seu e-mail" aria-label="Username" name="email_login">
+                        <input type="email" class="form-control" placeholder="Seu e-mail" aria-label="Username" name="email_login" id="email_form">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Nome" aria-label="Username" name="nome_login">
+                            <input type="text" class="form-control" placeholder="Nome" aria-label="Username" name="nome_login" id="nome_login">
                             <a href="#" onclick="versenha()"><span class="input-group-text"><span class="material-symbols-outlined" id="toggle-icon">visibility</span></span></a>
                             <input type="password" class="form-control" placeholder="Sua senha" aria-label="Server" id="senha" name="senha_login">
                         </div>
@@ -146,34 +164,82 @@ if (isset($_POST['btn_mail'])) {
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                         <button type="submit" class="btn btn-primary" name="btn_entrar">Entrar</button>
                     </div>
+
+
                 </form>
             </div>
         </div>
     </div>
+
+
+
+
+
+
     <script>
         document.getElementById('consultaForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Evita o comportamento padrão do formulário
 
             var formData = new FormData(this); // Coleta os dados do formulário
-
+            var senhaForm = document.getElementById('senha').value; //senha digitada pelo usuario
+            var nomeform = document.getElementById('nome_login').value;
+            var emailform = document.getElementById('email_form').value;
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'consulta.php', true); // Muda para POST
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     var data = JSON.parse(xhr.responseText);
                     var resultDiv = document.getElementById('result');
-                    var nome_user = document.getElementById('nome_user');
+                    var senha_certa = "nao";
+
                     resultDiv.innerHTML = '';
-                    if (data.length > 0) {
-                        data.forEach(function(item) {
-                            var p = document.createElement('div');
-                            p.textContent = 'OLÁ ' + item.nome;
-                            p.style.textTransform = 'uppercase'
-                            resultDiv.appendChild(p);
-                        });
-                        alert('Email já cadastrado!');
-                    } else {
-                        resultDiv.textContent = 'Nenhum dado encontrado.';
+                    if (data.length > 0 && data[0].acesso == 1) {
+                        if (senhaForm != data[0].senha) {
+                            alert("SENHA INCORRETA, TENTE NOVAMENTE.");
+                        } else {
+                            var senha_certa = "sim";
+                        }
+                        if (senha_certa == 'sim') {
+                            console.log('ja existe');
+                            data.forEach(function(item) {
+                                var p = document.createElement('div');
+                                p.textContent = 'OLÁ ' + item.nome;
+                                p.style.textTransform = 'uppercase';
+                                resultDiv.appendChild(p);
+                            });
+                        }
+
+                    } else if (data.length === 0) {
+                        // Insira a lógica para adicionar um novo usuário
+                        var newUserData = new FormData();
+                        newUserData.append('email_login', formData.get('email_login'));
+                        newUserData.append('senha_login', formData.get('senha_login'));
+                        newUserData.append('nome_login', formData.get('nome_login'));
+                        // Define um cookie com nome 'usuario' e valor 'João' que expira em 1 hora
+
+
+                        var insertXhr = new XMLHttpRequest();
+                        insertXhr.open('POST', 'insere.php', true); // Endpoint para inserir um novo usuário
+                        insertXhr.onreadystatechange = function() {
+                            if (insertXhr.readyState === 4 && insertXhr.status === 200) {
+                                var insertResponse = JSON.parse(insertXhr.responseText);
+                                if (insertResponse.status === 'success') {
+                                    alert('Novo usuário cadastrado com sucesso!');
+                                    var p = document.createElement('div');
+                                    p.textContent = 'OLÁ ' + formData.get('nome_login');
+                                    p.style.textTransform = 'uppercase';
+                                    resultDiv.appendChild(p);
+                                    document.cookie = 'usuario=' + emailform + '; expires=' + new Date(new Date().getTime() + 3600 * 1000).toUTCString();
+
+                                    console.log('Cookie definido com sucesso!');
+                                } else {
+                                    console.error('Erro ao cadastrar novo usuário: ', insertResponse.message);
+                                }
+                            } else if (insertXhr.readyState === 4) {
+                                console.error('Erro na inserção: ', insertXhr.statusText);
+                            }
+                        };
+                        insertXhr.send(newUserData);
                     }
                 } else if (xhr.readyState === 4) {
                     console.error('Erro na consulta: ', xhr.statusText);
@@ -182,6 +248,11 @@ if (isset($_POST['btn_mail'])) {
             xhr.send(formData); // Envia os dados do formulário
         });
     </script>
+
+
+
+
+
 
 
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight">
@@ -274,23 +345,23 @@ if (isset($_POST['btn_mail'])) {
 
 
         <div class="offcanvas-body" id="offcanvasSERV">
-            <form>
+            <form method="POST" action="index.php">
                 <fieldset>
                     <legend></legend>
                     <div class="mb-3">
                         <label for="disabledTextInput" class="form-label">Descreva o problema...</label>
-                        <input type="text" id="disabledTextInput" class="form-control" placeholder="Qual o problema?">
+                        <input type="text" id="disabledTextInput" class="form-control" placeholder="Qual o problema?" name="descricao">
                     </div>
                     <div class="mb-3">
                         <label for="disabledSelect" class="form-label">Selecione o tipo de serviço</label>
-                        <select id="disabledSelect" class="form-select">
+                        <select id="disabledSelect" class="form-select" name="opcoes_servicos">
                             <option>Serviço elétrico</option>
                             <option>Serviço mecânico</option>
                             <option>Ar condicionado</option>
                         </select>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Solicitar</button>
+                    <button type="submit" class="btn btn-primary" name="btn_serviços">Solicitar</button>
                 </fieldset>
 
             </form>
