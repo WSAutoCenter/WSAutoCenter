@@ -2,14 +2,14 @@
 
 require 'vendor/autoload.php';
 include 'conexao.php';
-$nome_user = "";
-if (isset($_COOKIE['usuario'])) {
-    $user = $_COOKIE['usuario'];
-    $sql = "SELECT * FROM usuarios WHERE email = '$user'";
-    $resultado = banco($server, $user, $pass, $name, $sql);
-    $line = $resultado->fetch_assoc();
-    $nome_user = $line['nome'];
-}
+// $nome_user = "";
+// if (isset($_COOKIE['usuario'])) {
+//     $user = $_COOKIE['usuario'];
+//     $sql = "SELECT * FROM usuarios WHERE email = '$user'";
+//     $resultado = banco($server, $user, $pass, $name, $sql);
+//     $line = $resultado->fetch_assoc();
+//     $nome_user = $line['nome'];
+// }
 
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -84,6 +84,8 @@ if (isset($_POST['btn_serviços'])) {
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link href="https://fonts.googleapis.com/css2?family=Archie+Volume&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -105,7 +107,8 @@ if (isset($_POST['btn_serviços'])) {
                         <a class="nav-link active" aria-current="page" href="#" style="font-weight:bold;">TOPO</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" target="blank">PEÇAS</a>
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">PEÇAS</a>
+
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -130,7 +133,7 @@ if (isset($_POST['btn_serviços'])) {
                     </button>
                 </ul>
                 <?php
-                echo "<div id='onload' style='max-height:auto; height:auto; text-align:center; margin-right:1rem'>$nome_user</div>";
+                // echo "<div id='onload' style='max-height:auto; height:auto; text-align:center; margin-right:1rem'>$nome_user</div>";
                 echo "<div id='result' style='max-height:auto; height:auto; text-align:center; margin-right:1rem'></div>";
                 ?>
                 <form class="d-flex" role="search">
@@ -142,6 +145,37 @@ if (isset($_POST['btn_serviços'])) {
 
         </div>
     </nav>
+
+    <!-- Button trigger modal -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="display: flex; justify-content: space-between;">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">PEÇAS</h1>
+                    <form class="d-flex" role="search" style="display: flex; align-items:center;">
+                        <input class="form-control me-2" type="search" placeholder="PROCURE ALGO..." aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">BUSCAR</button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                    </form>
+                </div>
+
+                <div class="modal-body">
+
+                    <img src="img/logo200.jpg" class="img-fluid img-thumbnail" alt="..." id="img200px">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -311,8 +345,8 @@ if (isset($_POST['btn_serviços'])) {
     <section class="section1">
         <div class="blur">
             <div class="container-fluid" id="section1_content">
-                <h1>Bem-vindo a<br> WSAutoCenter</h1>
-                <p>Sua confiança é nosso compromisso. No WSAutoCenter, nós oferecemos serviços automotivos de alta
+                <div id="welcome"><h1>Bem-vindo a</h1><DIV class="PRIMEIRA"><h1 style="color:#B71C22" id="ws">WS</h1><h1>CENTROAUTOMOTIVO</h1></DIV></div>
+                <p>Sua confiança é nosso compromisso. Na WS Centro Automotivo, nós oferecemos serviços automotivos de alta
                     qualidade, atendimento personalizado e uma equipe altamente especializada para cuidar do seu veículo.
                 </p>
                 <div class="container-fluid">
